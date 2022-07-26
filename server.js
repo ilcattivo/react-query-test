@@ -1,13 +1,11 @@
-const faker = require("@faker-js/faker").faker;
+const users = require("./db/users");
+const todos = require("./db/todos");
 
 module.exports = () => {
   const data = {
-    users: [],
+    users,
+    todos,
   };
-
-  for (let i = 0; i < 10; i++) {
-    data.users.push({ id: i, name: faker.name.findName() });
-  }
 
   return data;
 };
