@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 
 import { Todo } from "@/types/todo";
-import { useUpdateTodo } from "@/api/mutations/todos/useUpdateTodo";
+import { useUpdateTodo } from "src/api/mutations/todos/useUpdateTodo";
 
 type TodoFormProps = {
   todo: Todo;

@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useTodos } from "@/api/query/todos/useTodos";
+import { useTodos } from "src/api/query/todos/useTodos";
 import { TodoRow } from "./TodoRow/TodoRow";
 
 export const TodosTable = () => {
