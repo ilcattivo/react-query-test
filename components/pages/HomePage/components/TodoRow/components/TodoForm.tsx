@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import TableCell from "@mui/material/TableCell";
@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 
 import { Todo } from "@/types/todo";
+import { useUpdateTodo } from "@/api/mutations/todos/useUpdateTodo";
 
 type TodoFormProps = {
   todo: Todo;
@@ -18,6 +19,24 @@ type TodoFormProps = {
 };
 
 export const TodoForm: FC<TodoFormProps> = ({ todo, expanded }) => {
+  const [title, setTitle] = useState(todo.title);
+  const [completed, setCompleted] = useState(todo.completed);
+  const { mutateAsync } = useUpdateTodo();
+
+  const handleSaveClick = async () => {
+    try {
+      await mutateAsync({
+        todoId: todo.id,
+        data: {
+          title,
+          completed,
+        },
+      });
+    } catch (error) {
+      // TODO: show errors, report to Sentry, etc
+    }
+  };
+
   return (
     <TableRow>
       <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -33,17 +52,25 @@ export const TodoForm: FC<TodoFormProps> = ({ todo, expanded }) => {
                   id={`title-field-${todo.id}`}
                   label="Title"
                   placeholder="Enter title"
-                  defaultValue=""
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   fullWidth
                 />
                 <FormGroup>
                   <FormControlLabel
-                    control={<Checkbox defaultChecked={todo.completed} />}
+                    control={
+                      <Checkbox
+                        checked={completed}
+                        onChange={(e) => setCompleted(e.target.checked)}
+                      />
+                    }
                     label="Done"
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Button variant="outlined">Save</Button>
+                  <Button variant="outlined" onClick={handleSaveClick}>
+                    Save
+                  </Button>
                 </FormGroup>
               </Box>
             </Box>
