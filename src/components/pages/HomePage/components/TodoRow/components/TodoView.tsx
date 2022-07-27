@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Todo } from "@/types/todo";
+import { useUser } from "@/api/query/users/useUser";
 
 type TodoViewProps = {
   todo: Todo;
@@ -19,6 +20,8 @@ export const TodoView: FC<TodoViewProps> = ({
   expanded,
   onExpand: handleExpand,
 }) => {
+  const { data: author } = useUser(todo.userId);
+
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
       <TableCell>
@@ -29,7 +32,7 @@ export const TodoView: FC<TodoViewProps> = ({
       <TableCell component="th" scope="row">
         {todo.id}
       </TableCell>
-      <TableCell>{"username"}</TableCell>
+      <TableCell>{author ? `@${author.username}` : ""}</TableCell>
       <TableCell>{todo.userId}</TableCell>
       <TableCell>{todo.title}</TableCell>
       <TableCell>
