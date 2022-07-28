@@ -4,3 +4,9 @@ export type Todo = {
   title: string;
   completed: boolean;
 };
+
+export const enum TodoTab {
+  All,
+  Completed,
+  Uncompleted,
+}
