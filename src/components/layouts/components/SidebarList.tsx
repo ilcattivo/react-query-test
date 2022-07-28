@@ -4,8 +4,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
 import Link from "next/link";
 
 export const SidebarList: FC = () => {
@@ -33,6 +31,14 @@ export const SidebarList: FC = () => {
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Pagination" />
+        </ListItemButton>
+      </Link>
+      <Link href="/infinite">
+        <ListItemButton component="a">
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Infinite List" />
         </ListItemButton>
       </Link>
     </List>
