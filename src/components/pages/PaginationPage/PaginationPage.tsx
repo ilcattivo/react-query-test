@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import { TodosFilterProvider } from "./TodosFilterContext";
 import { TodosPagination } from "./components/TodosPagination";
 
-export const HomePage = () => {
+export const PaginationPage = () => {
   return (
     <TodosFilterProvider>
       <Layout>

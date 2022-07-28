@@ -3,16 +3,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./components/listItems";
 import { Copyright } from "./components/Copyright";
 import { Drawer } from "./components/Drawer";
 import { AppBar } from "./components/AppBar";
+import { SidebarList } from "./components/SidebarList";
 
 const mdTheme = createTheme();
 
@@ -55,7 +54,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              React Query
             </Typography>
           </Toolbar>
         </AppBar>
@@ -73,11 +72,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
-          </List>
+          <SidebarList />
         </Drawer>
         <Box
           component="main"

@@ -1,6 +1,5 @@
-import { HomePage } from "@/components/pages/HomePage/HomePage";
-import React from "react";
+import { SimplePage } from "@/components/pages/SimplePage/SimplePage";
 
-const Home = () => <HomePage />;
+const Home = () => <SimplePage />;
 
 export default Home;
