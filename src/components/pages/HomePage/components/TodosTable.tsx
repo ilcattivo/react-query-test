@@ -12,17 +12,8 @@ import { useTodosFilter } from "../TodosFilterContext";
 import { TodoTab } from "@/types/todo";
 
 export const TodosTable = () => {
-  const { search, currentTab, page } = useTodosFilter();
-  const {
-    data: todos,
-    isError,
-    isLoading,
-  } = useTodos({
-    title: search || undefined,
-    completed:
-      currentTab === TodoTab.All ? undefined : currentTab === TodoTab.Completed,
-    page,
-  });
+  const { filters } = useTodosFilter();
+  const { data: todos, isError, isLoading } = useTodos(filters);
 
   if (isError) {
     return <span>Something went wrong</span>;

@@ -1,4 +1,4 @@
-import { getTodos } from "@/api/query/todos/useTodos";
+import { getTodos, TodosParams } from "@/api/query/todos/useTodos";
 import { TodoTab } from "@/types/todo";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -7,25 +7,22 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useDidUpdateEffect } from "src/hooks/useDidUpdateEffect";
 
-const TodosFilterContext = createContext<{
+type ContextValues = {
   search: string;
   currentTab: TodoTab;
   page: number;
+  filters: TodosParams;
   setSearch: (search: string) => void;
   setCurrentTab: (tab: TodoTab) => void;
   setPage: (page: number) => void;
-}>({
-  search: "",
-  currentTab: TodoTab.All,
-  page: 1,
-  setSearch: () => {},
-  setCurrentTab: () => {},
-  setPage: () => {},
-});
+};
+
+const TodosFilterContext = createContext<ContextValues>({} as ContextValues);
 
 export const TodosFilterProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -40,22 +37,38 @@ export const TodosFilterProvider: FC<{ children: ReactNode }> = ({
     setPage(1);
   }, [search, currentTab]);
 
-  useEffect(() => {
-    const params = {
-      title: search || undefined,
+  const filters = useMemo<TodosParams>(() => {
+    return {
+      title_like: search || undefined,
       completed:
         currentTab === TodoTab.All
           ? undefined
           : currentTab === TodoTab.Completed,
-      page: page + 1,
+      _page: page,
     };
+  }, [currentTab, page, search]);
 
-    queryClient.prefetchQuery(["todos", params], () => getTodos(params));
-  }, [currentTab, page, queryClient, search]);
+  useEffect(() => {
+    const nextPageParams: TodosParams = {
+      ...filters,
+      _page: filters._page! + 1,
+    };
+    queryClient.prefetchQuery(["todos", nextPageParams], () =>
+      getTodos(nextPageParams)
+    );
+  }, [filters, queryClient]);
 
   return (
     <TodosFilterContext.Provider
-      value={{ search, currentTab, page, setSearch, setCurrentTab, setPage }}
+      value={{
+        search,
+        currentTab,
+        page,
+        filters,
+        setSearch,
+        setCurrentTab,
+        setPage,
+      }}
     >
       {children}
     </TodosFilterContext.Provider>

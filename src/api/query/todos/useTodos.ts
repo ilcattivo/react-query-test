@@ -2,25 +2,23 @@ import { apiFetcher } from "@/services/ApiService";
 import { Todo } from "@/types/todo";
 import { useQuery } from "@tanstack/react-query";
 
-type Params = {
-  title?: string;
+export type TodosParams = {
+  title_like?: string;
   completed?: boolean;
-  page?: number;
+  _page?: number;
 };
 
-export const getTodos = (params?: Params) =>
+export const getTodos = (params?: TodosParams) =>
   apiFetcher<Todo[]>({
     method: "GET",
     url: "todos",
     params: {
-      title_like: params?.title,
-      completed: params?.completed,
-      _page: params?.page,
+      ...params,
       _limit: 20,
     },
   });
 
-export const useTodos = (params?: Params) => {
+export const useTodos = (params?: TodosParams) => {
   return useQuery({
     queryKey: ["todos", params],
     queryFn: () => getTodos(params),
