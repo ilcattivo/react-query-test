@@ -12,7 +12,7 @@ import { useTodosFilter } from "../TodosFilterContext";
 import { TodoTab } from "@/types/todo";
 
 export const TodosTable = () => {
-  const { search, currentTab } = useTodosFilter();
+  const { search, currentTab, page } = useTodosFilter();
   const {
     data: todos,
     isError,
@@ -21,6 +21,7 @@ export const TodosTable = () => {
     title: search || undefined,
     completed:
       currentTab === TodoTab.All ? undefined : currentTab === TodoTab.Completed,
+    page,
   });
 
   if (isError) {

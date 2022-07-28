@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 type Params = {
   title?: string;
   completed?: boolean;
+  page?: number;
 };
 
 export const getTodos = (params?: Params) =>
@@ -14,6 +15,8 @@ export const getTodos = (params?: Params) =>
     params: {
       title_like: params?.title,
       completed: params?.completed,
+      _page: params?.page,
+      _limit: 20,
     },
   });
 
