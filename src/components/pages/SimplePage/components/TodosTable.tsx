@@ -6,11 +6,19 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useTodos } from "src/api/query/todos/useTodos";
 import { TodoRow } from "./TodoRow/TodoRow";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Todo } from "@/types/todo";
 
 export const TodosTable = () => {
-  const { data: todos, isError, isLoading } = useTodos();
+  const { data, isError, isLoading } = useQuery(["todos"], () =>
+    axios.get("http://localhost:3001/todos", {
+      params: {
+        _limit: 20,
+      },
+    })
+  );
 
   if (isError) {
     return <span>Something went wrong</span>;
@@ -34,7 +42,7 @@ export const TodosTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {todos?.map((todo) => (
+            {data.data?.map((todo: Todo) => (
               <TodoRow key={todo.id} todo={todo} />
             ))}
           </TableBody>
