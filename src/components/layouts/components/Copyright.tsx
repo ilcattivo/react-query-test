@@ -12,7 +12,7 @@ export const Copyright = (props: TypographyProps) => {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Your Awesome Website
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
