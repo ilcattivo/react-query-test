@@ -1,5 +1,14 @@
+import { getTodos } from "@/api/query/todos/useTodos";
 import { TodoTab } from "@/types/todo";
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useDidUpdateEffect } from "src/hooks/useDidUpdateEffect";
 
 const TodosFilterContext = createContext<{
@@ -21,6 +30,8 @@ const TodosFilterContext = createContext<{
 export const TodosFilterProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const queryClient = useQueryClient();
+
   const [currentTab, setCurrentTab] = useState<TodoTab>(TodoTab.All);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -28,6 +39,19 @@ export const TodosFilterProvider: FC<{ children: ReactNode }> = ({
   useDidUpdateEffect(() => {
     setPage(1);
   }, [search, currentTab]);
+
+  useEffect(() => {
+    const params = {
+      title: search || undefined,
+      completed:
+        currentTab === TodoTab.All
+          ? undefined
+          : currentTab === TodoTab.Completed,
+      page: page + 1,
+    };
+
+    queryClient.prefetchQuery(["todos", params], () => getTodos(params));
+  }, [currentTab, page, queryClient, search]);
 
   return (
     <TodosFilterContext.Provider
