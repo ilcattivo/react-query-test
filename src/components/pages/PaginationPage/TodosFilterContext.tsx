@@ -1,4 +1,4 @@
-import { getTodos, TodosParams } from "@/api/query/todos/useTodos";
+import { getTodos, TodosParams } from "@/api/query/todos/useTodosWithParams";
 import { TodoTab } from "@/types/todo";
 import { useQueryClient } from "@tanstack/react-query";
 import {

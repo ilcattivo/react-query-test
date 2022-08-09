@@ -11,7 +11,7 @@ export const getTodo = (todoId: number) =>
 export const useTodo = (todoId: number) => {
   const queryClient = useQueryClient();
 
-  return useQuery({
+  return useQuery<Todo>({
     queryKey: ["todos", todoId],
     queryFn: () => getTodo(todoId),
     initialData: () => {
@@ -19,7 +19,11 @@ export const useTodo = (todoId: number) => {
         | InfiniteData<Todo[]>
         | undefined;
 
-      return allTodos?.pages.flat().find((todo) => todo.id === todoId);
+      const targetTodo = allTodos?.pages
+        .flat()
+        .find((todo) => todo.id === todoId);
+
+      return targetTodo;
     },
   });
 };

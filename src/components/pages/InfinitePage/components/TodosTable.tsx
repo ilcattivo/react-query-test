@@ -1,7 +1,5 @@
 import Paper from "@mui/material/Paper";
 import { Fragment, useEffect } from "react";
-import InfiniteLoader from "react-window-infinite-loader";
-import { FixedSizeList } from "react-window";
 import { useInView } from "react-intersection-observer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,6 +21,7 @@ export const TodosTable: React.FC = () => {
   } = useInfiniteTodos();
 
   const { ref, inView } = useInView();
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -39,26 +38,6 @@ export const TodosTable: React.FC = () => {
 
   return (
     <Paper>
-      {/* <InfiniteLoader
-        isItemLoaded={isItemLoaded}
-        itemCount={data?.pages.length || 0}
-        loadMoreItems={loadMoreItems}
-      >
-        {({ onItemsRendered, ref }) => (
-          <FixedSizeList
-            className="List"
-            height={400}
-            innerElementType={InnerTable}
-            width={1100}
-            itemCount={data?.pages.length || 0}
-            itemSize={62.5}
-            onItemsRendered={onItemsRendered}
-            ref={ref}
-          >
-            {Item}
-          </FixedSizeList>
-        )}
-      </InfiniteLoader> */}
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -71,6 +50,10 @@ export const TodosTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* 
+              TODO: rendering hundreds of items may slow down the user's device
+              Consider using something like react-window + react-window-infinite-loader in real projects to add virtualization
+            */}
             {data.pages.map((page, index) => (
               <Fragment key={index}>
                 {page.map((todo) => (

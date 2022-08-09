@@ -8,18 +8,20 @@ export type TodosParams = {
   _page?: number;
 };
 
-export const getTodos = () =>
+export const getTodos = (params?: TodosParams) =>
   apiFetcher<Todo[]>({
     method: "GET",
     url: "todos",
     params: {
+      ...params,
       _limit: 20,
     },
   });
 
-export const useTodos = () => {
+export const useTodos = (params?: TodosParams) => {
   return useQuery({
-    queryKey: ["todos"],
-    queryFn: getTodos,
+    queryKey: ["todos", params],
+    queryFn: () => getTodos(params),
+    keepPreviousData: true,
   });
 };
